@@ -1,0 +1,83 @@
+#include "main.h"
+#include "button_gui.h"
+#include <lvgl.h>
+#define TOUCH_SDA 19
+#define TOUCH_SCL 20
+#define TOUCH_INT -1
+#define TOUCH_RST 38
+#define TOUCH_WIDTH 800
+#define TOUCH_HEIGHT 480
+#define GFX_BL DF_GFX_BL // default backlight pin, you may replace DF_GFX_BL to actual backlight pin
+#define TFT_BL 2
+int prev_x[5];
+int prev_y[5];
+Arduino_ESP32RGBPanel *bus = new Arduino_ESP32RGBPanel(
+    GFX_NOT_DEFINED /* CS */, GFX_NOT_DEFINED /* SCK */, GFX_NOT_DEFINED /* SDA */,
+    41 /* DE */, 40 /* VSYNC */, 39 /* HSYNC */, 42 /* PCLK */,
+    14 /* R0 */, 21 /* R1 */, 47 /* R2 */, 48 /* R3 */, 45 /* R4 */,
+    9 /* G0 */, 46 /* G1 */, 3 /* G2 */, 8 /* G3 */, 16 /* G4 */, 1 /* G5 */,
+    15 /* B0 */, 7 /* B1 */, 6 /* B2 */, 5 /* B3 */, 4 /* B4 */
+);
+// option 1:
+// 7寸 50PIN 800*480
+Arduino_RPi_DPI_RGBPanel *gfx = new Arduino_RPi_DPI_RGBPanel(
+    bus,
+    //  800 /* width */, 0 /* hsync_polarity */, 8/* hsync_front_porch */, 2 /* hsync_pulse_width */, 43/* hsync_back_porch */,
+    //  480 /* height */, 0 /* vsync_polarity */, 8 /* vsync_front_porch */, 2/* vsync_pulse_width */, 12 /* vsync_back_porch */,
+    //  1 /* pclk_active_neg */, 16000000 /* prefer_speed */, true /* auto_flush */);
+
+    800 /* width */, 0 /* hsync_polarity */, 210 /* hsync_front_porch */, 30 /* hsync_pulse_width */, 16 /* hsync_back_porch */,
+    480 /* height */, 0 /* vsync_polarity */, 22 /* vsync_front_porch */, 13 /* vsync_pulse_width */, 10 /* vsync_back_porch */,
+    1 /* pclk_active_neg */, 16000000 /* prefer_speed */, true /* auto_flush */);
+#define LIGHTBLUER 137
+#define LIGHTBLUEG 207
+#define LIGHTBLUEB 240
+#define LIGHTBLUE gfx->color565(LIGHTBLUER, LIGHTBLUEG, LIGHTBLUEB)
+TAMC_GT911 tp = TAMC_GT911(TOUCH_SDA, TOUCH_SCL, TOUCH_INT, TOUCH_RST, TOUCH_WIDTH, TOUCH_HEIGHT);
+button buton1(50, 70, 100, 79, LIGHTBLUE, BLUE, WHITE, "Test");
+void setup()
+{
+  Serial.begin(115200);
+  Serial.println("TAMC_GT911 Example: Ready");
+  Serial.println(LIGHTBLUE);
+  tp.begin();
+  tp.setRotation(1);
+  gfx->begin();
+#ifdef TFT_BL
+  pinMode(TFT_BL, OUTPUT);
+  digitalWrite(TFT_BL, HIGH);
+#endif
+  gfx->fillScreen(backround_collor);
+  buton1.create();
+}
+void loop()
+{
+
+  // Serial.println(" I am here ");
+  tp.read();
+  if (tp.isTouched)
+  {
+    for (int i = 0; i < tp.touches; i++)
+    {
+      if (prev_x[i] == tp.points[i].x)
+        if (prev_y[i] = tp.points[i].y)
+          continue;
+      Serial.print("Touch ");
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.print("  x: ");
+      Serial.print(tp.points[i].x);
+      Serial.print("  y: ");
+      Serial.print(tp.points[i].y);
+      Serial.print("  size: ");
+      Serial.println(tp.points[i].size);
+      if (buton1.button_presed(tp.points[i].x, tp.points[i].y))
+      {
+        Serial.println("pressed");
+      }
+      Serial.println(' ');
+      prev_x[i] = tp.points[i].x;
+      prev_y[i] = tp.points[i].y;
+    }
+  }
+}
