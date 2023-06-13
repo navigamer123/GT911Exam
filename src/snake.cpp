@@ -21,20 +21,20 @@ void Snake::loop()
         if (snake_headX - 25 < 0)
         {
             Serial.println(snake_headX);
-            snake_headX = 475;
+            snake_headX = 475 + move_x;
         }
         else if (snake_headX + 25 > 500)
         {
-            snake_headX = 25;
+            snake_headX = 25 + move_x;
         }
         else if (snake_headY - 25 < 0)
         {
             Serial.println(snake_headY);
-            snake_headY = 275;
+            snake_headY = 275 + move_y;
         }
         else if (snake_headY + 25 > 300)
         {
-            snake_headY = 25;
+            snake_headY = 25 + move_y;
         }
         gfx->fillCircle(otEkranenXdoRealenX(snake_headX), otEkranenYdoRealenY(snake_headY), 25, gfx->color565(255, 0, 0));
         PosMove();
