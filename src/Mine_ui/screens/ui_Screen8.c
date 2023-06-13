@@ -20,8 +20,8 @@ void drag_event_handler(lv_event_t *e)
     lv_coord_t y;
     x = lv_obj_get_x(obj) + vect.x;
     y = lv_obj_get_y(obj) + vect.y;
-    jconMoveX = (50 - x)/20;
-    jconMoveY = (50 - y)/20;
+    jconMoveX = (50 - x)/15;
+    jconMoveY = (50 - y)/15;
     lv_obj_set_pos(obj, x, y);
 }
 
