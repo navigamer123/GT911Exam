@@ -20,8 +20,11 @@ void drag_event_handler(lv_event_t *e)
     lv_coord_t y;
     x = lv_obj_get_x(obj) + vect.x;
     y = lv_obj_get_y(obj) + vect.y;
-    jconMoveX = (50 - x)/15;
-    jconMoveY = (50 - y)/15;
+    if (vect.x != 0 && vect.y != 0)
+    {
+        jconMoveX = (50 - x) / 15;
+        jconMoveY = (50 - y) / 15;
+    }
     lv_obj_set_pos(obj, x, y);
 }
 
@@ -32,9 +35,9 @@ static void backto00(lv_event_t *e)
     lv_indev_t *indev = lv_indev_get_act();
     if (indev == NULL)
         return;
-        
-    lv_coord_t x = 50;
-    lv_coord_t y = 50;
+
+    lv_coord_t x = 25;
+    lv_coord_t y = 25;
     lv_obj_set_pos(obj, x, y);
 }
 
@@ -128,13 +131,13 @@ void ui_Screen8_screen_init_mian(void)
     lv_obj_set_style_radius(ui_snake_jcon_out, jcon_W / 2, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_snake_jcon_in = lv_obj_create(ui_snake_jcon_out);
-    lv_obj_set_size(ui_snake_jcon_in, 50, 50);
-    lv_obj_set_x(ui_snake_jcon_in, 50);
-    lv_obj_set_y(ui_snake_jcon_in, 50);
+    lv_obj_set_size(ui_snake_jcon_in, 75, 75);
+    lv_obj_set_x(ui_snake_jcon_in, 25);
+    lv_obj_set_y(ui_snake_jcon_in, 25);
     lv_obj_add_event_cb(ui_snake_jcon_in, drag_event_handler, LV_EVENT_PRESSING, NULL);
     lv_obj_add_event_cb(ui_snake_jcon_in, backto00, LV_EVENT_RELEASED, NULL);
     lv_obj_set_style_bg_color(ui_snake_jcon_in, lv_color_hex(0x00000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui_snake_jcon_in, 50, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_snake_jcon_in, 75, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_snake_box = lv_obj_create(ui_Screen_snake_game);
     lv_obj_set_width(ui_snake_box, 500);
@@ -144,7 +147,7 @@ void ui_Screen8_screen_init_mian(void)
     lv_obj_set_align(ui_snake_box, LV_ALIGN_CENTER);
     lv_obj_clear_flag(ui_snake_box, LV_OBJ_FLAG_SCROLLABLE); /// Flags
     lv_obj_set_style_radius(ui_snake_box, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    
+
     /*Create colors with the indices of the palette*/
     /*
     ui_snake_Button3 = lv_btn_create(ui_Screen_snake_game);
