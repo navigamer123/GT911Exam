@@ -97,6 +97,11 @@ Arduino_RPi_DPI_RGBPanel *gfx = new Arduino_RPi_DPI_RGBPanel(
 #include "main.h"
 #include "snake.h"
 
+
+#define Speker_DOUT      17
+#define Speker_BCLK      0
+#define Speker_LRC       18
+
 int network_Nubers;
 /* Change to your screen resolution */
 static uint32_t screenWidth;

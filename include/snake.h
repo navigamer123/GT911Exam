@@ -14,12 +14,13 @@ public:
     int lasttick = millis();
     int snake_headX = 250;
     int snake_headY = 150;
-    int bgX = 400;
-    int bgY = 400;
+    int bgXofset = 0;
+    int bgYofset = 0;
+    
     int game[25][15];
     int gameObjCords[25][15];
-    int tailX[tail_count];
-    int tailY[tail_count];
+    int tailX[tail_count] = {250};
+    int tailY[tail_count] = {150};
     void loop();
     void PosMove();
     void CameraMove();
