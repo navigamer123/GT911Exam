@@ -96,11 +96,16 @@ Arduino_RPi_DPI_RGBPanel *gfx = new Arduino_RPi_DPI_RGBPanel(
 #include "WiFi.h"
 #include "main.h"
 #include "snake.h"
+#include "SD.h"
 
+#define Speker_DOUT 17
+#define Speker_BCLK 0
+#define Speker_LRC 18
 
-#define Speker_DOUT      17
-#define Speker_BCLK      0
-#define Speker_LRC       18
+#define SD_CS 10
+#define SPI_MOSI 11
+#define SPI_MISO 13
+#define SPI_SCK 12
 
 int network_Nubers;
 /* Change to your screen resolution */
@@ -146,6 +151,9 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
     data->state = LV_INDEV_STATE_REL;
   }
 }
+File myFile;
+Snake snake;
+
 void setup()
 {
   Serial.begin(115200);
@@ -214,8 +222,24 @@ void setup()
   gfx->drawCircle(gfx->width() / 2, gfx->height() / 2, 100, gfx->color565(255, 255, 255));
   network_Nubers = WiFi.scanNetworks();
   ui_init_main();
+  pinMode(SD_CS, OUTPUT);
+  digitalWrite(SD_CS, HIGH);
+  SPI.begin(SPI_SCK, SPI_MISO, SPI_MOSI);
+  if (!SD.begin(SD_CS, SPI, 1000000))
+  {
+    Serial.println("SD Card Mount Failed");
+  }
+  uint8_t cardType = SD.cardType();
+  if (cardType == CARD_NONE)
+  {
+    Serial.println("No SD card attached");
+  }
+  Serial.print(cardType);
+  myFile = SD.open("/test.txt","r");
+  Serial.println(" ");
+  Serial.print(myFile.readString());
+  snake.setup();
 }
-Snake snake;
 
 void loop()
 {
@@ -223,8 +247,9 @@ void loop()
   {
     snake.loop();
     lv_timer_handler_run_in_period(0);
-  }else{
-  lv_timer_handler_run_in_period(100); /* let the GUI do its work */
-  
+  }
+  else
+  {
+    lv_timer_handler_run_in_period(100); /* let the GUI do its work */
   }
 }
