@@ -36,8 +36,8 @@ static void backto00(lv_event_t *e)
     if (indev == NULL)
         return;
 
-    lv_coord_t x = 25;
-    lv_coord_t y = 25;
+    lv_coord_t x = 35;
+    lv_coord_t y = 35;
     lv_obj_set_pos(obj, x, y);
 }
 
@@ -65,7 +65,7 @@ void ui_Screen8_screen_init_mian(void)
     lv_label_set_text(ui_back_label, "back");
     lv_obj_add_event_cb(ui_back, app_select, LV_EVENT_ALL, NULL);
 
-    ui_snake_Arrow_UP = lv_btn_create(ui_Screen_snake_game);
+    /*ui_snake_Arrow_UP = lv_btn_create(ui_Screen_snake_game);
     lv_obj_set_width(ui_snake_Arrow_UP, 50);
     lv_obj_set_height(ui_snake_Arrow_UP, 50);
     lv_obj_set_x(ui_snake_Arrow_UP, 650);
@@ -119,13 +119,13 @@ void ui_Screen8_screen_init_mian(void)
     lv_obj_set_x(ui_snake_Arrow_Right_lable, 0);
     lv_obj_set_y(ui_snake_Arrow_Right_lable, 0);
     lv_obj_set_align(ui_snake_Arrow_Right_lable, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_snake_Arrow_Right_lable, "=>");
+    lv_label_set_text(ui_snake_Arrow_Right_lable, "=>");*/
 
     ui_snake_jcon_out = lv_obj_create(ui_Screen_snake_game);
     lv_obj_set_width(ui_snake_jcon_out, jcon_W);
     lv_obj_set_height(ui_snake_jcon_out, jcon_H);
     lv_obj_set_x(ui_snake_jcon_out, 300);
-    lv_obj_set_y(ui_snake_jcon_out, -10);
+    lv_obj_set_y(ui_snake_jcon_out, 80);
     lv_obj_set_align(ui_snake_jcon_out, LV_ALIGN_CENTER);
     lv_obj_clear_flag(ui_snake_jcon_out, LV_OBJ_FLAG_SCROLLABLE); /// Flags
     lv_obj_set_style_radius(ui_snake_jcon_out, jcon_W / 2, LV_PART_MAIN | LV_STATE_DEFAULT);

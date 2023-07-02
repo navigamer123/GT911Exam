@@ -12,7 +12,7 @@ int otEkranenYdoRealenY(int y)
 
 void Snake::loop()
 {
-    if (millis() - lasttick >= 75)
+    if (millis() - lasttick >= move_delay)
     {
         curuntTail = (curuntTail + 1) % tail_count;
         drawTail(true);
@@ -21,15 +21,18 @@ void Snake::loop()
         drawSnake(true);
         CameraMove();
 
-        if (curuntTail == 0)
+        for (int i = 0; i < tail_count; i++)
         {
-            tailX[curuntTail] = snake_headX;
-            tailY[curuntTail] = snake_headY;
-        }
-        else
-        {
-            tailX[curuntTail] = tailX[curuntTail - 1] - move_x;
-            tailY[curuntTail] = tailY[curuntTail - 1] - move_y;
+            if (i == 0)
+            {
+                tailX[i] = snake_headX;
+                tailY[i] = snake_headY;
+            }
+            else
+            {
+                tailX[i] = tailX[i - 1] + move_x;
+                tailY[i] = tailY[i - 1] + move_y;
+            }
         }
 
         if (move_headX == true)
@@ -37,14 +40,18 @@ void Snake::loop()
         if (move_headY == true)
             snake_headY -= move_y;
 
-        PosMove();
+        // lasttick = millis();
+    }
+    PosMove();
+    if (millis() - lasttick >= move_delay)
+    {
         drawBg(false);
 
-        gfx->fillRect(otEkranenXdoRealenX(0), otEkranenYdoRealenY(0), 500, bgWH, gfx->color565(255, 255, 255));
-        gfx->fillRect(otEkranenXdoRealenX(0), otEkranenYdoRealenY(0), bgWH, 300, gfx->color565(255, 255, 255));
-        gfx->fillRect(otEkranenXdoRealenX(0), otEkranenYdoRealenY(300 - bgWH), 500, bgWH, gfx->color565(255, 255, 255));
-        gfx->fillRect(otEkranenXdoRealenX(500 - bgWH), otEkranenYdoRealenY(0), bgWH, 300, gfx->color565(255, 255, 255));
-        // hrana
+        // gfx->fillRect(otEkranenXdoRealenX(0), otEkranenYdoRealenY(0), 500, bgWH, gfx->color565(bg_color));
+        // gfx->fillRect(otEkranenXdoRealenX(0), otEkranenYdoRealenY(0), bgWH, 300, gfx->color565(bg_color));
+        // gfx->fillRect(otEkranenXdoRealenX(0), otEkranenYdoRealenY(300 - bgWH), 500, bgWH, gfx->color565(bg_color));
+        // gfx->fillRect(otEkranenXdoRealenX(500 - bgWH), otEkranenYdoRealenY(0), bgWH, 300, gfx->color565(bg_color));
+        //  hrana
         drawfood(false);
 
         // opshka
@@ -59,7 +66,7 @@ void Snake::PosMove()
 {
     move_x = jconMoveX;
     move_y = jconMoveY;
-// speed
+    // speed
 #define move_max 6
     if (move_x >= move_max)
     {
@@ -98,22 +105,38 @@ void Snake::PosMove()
     if (snake_headX < 25)
     {
         snake_headX = 250;
+
+        snake_headY = 150;
+        bgYofset_total = 0;
+
         bgXofset_total = 0;
     }
     else if (snake_headX > 475)
     {
         snake_headX = 250;
+
+        snake_headY = 150;
+        bgYofset_total = 0;
+
         bgXofset_total = 0;
     }
 
     if (snake_headY < 25)
     {
         snake_headY = 150;
+
+        snake_headX = 250;
+        bgXofset_total = 0;
+
         bgYofset_total = 0;
     }
     else if (snake_headY > 275)
     {
         snake_headY = 150;
+
+        snake_headX = 250;
+        bgXofset_total = 0;
+
         bgYofset_total = 0;
     }
 }
@@ -196,7 +219,7 @@ void Snake::drawfood(bool remove)
                 }
                 else
                 {
-                    gfx->fillCircle(otEkranenXdoRealenX(snakeFoodX[x] - bgXofset_total), otEkranenYdoRealenY(snakeFoodY[x] - bgYofset_total), foodSize, gfx->color565(255, 255, 255));
+                    gfx->fillCircle(otEkranenXdoRealenX(snakeFoodX[x] - bgXofset_total), otEkranenYdoRealenY(snakeFoodY[x] - bgYofset_total), foodSize, gfx->color565(bg_color));
                 }
             }
         }
@@ -213,7 +236,7 @@ void Snake::drawSnake(bool remove)
     }
     else
     {
-        gfx->fillCircle(otEkranenXdoRealenX(snake_headX), otEkranenYdoRealenY(snake_headY), 25, gfx->color565(255, 255, 255));
+        gfx->fillCircle(otEkranenXdoRealenX(snake_headX), otEkranenYdoRealenY(snake_headY), 25, gfx->color565(bg_color));
     }
 }
 
@@ -222,15 +245,19 @@ void Snake::drawTail(bool remove)
 
     if (!remove)
     {
-        /*
+
         for (int i = 0; i < tail_count; i++)
         {
             gfx->fillCircle(otEkranenXdoRealenX(tailX[i]), otEkranenYdoRealenY(tailY[i]), 25, gfx->color565(255, 0, 0));
-        }*/
+        }
     }
     else
     {
-        // gfx->fillCircle(otEkranenXdoRealenX(tailX[curuntTail]), otEkranenYdoRealenY(tailY[curuntTail]), 25, gfx->color565(255, 255, 255));
+        for (int i = 0; i < tail_count; i++)
+        {
+            gfx->fillCircle(otEkranenXdoRealenX(tailX[i]), otEkranenYdoRealenY(tailY[i]), 25, gfx->color565(bg_color));
+        }
+        // gfx->fillCircle(otEkranenXdoRealenX(tailX[curuntTail]), otEkranenYdoRealenY(tailY[curuntTail]), 25, gfx->color565(bg_color));
     }
 }
 
@@ -283,7 +310,7 @@ void Snake::drawBg(bool remove)
             else
             {
 
-                gfx->drawRect(otEkranenXdoRealenX(posX - bgXofset), otEkranenYdoRealenY(posY - bgYofset), bgWH, bgWH, gfx->color565(255, 255, 255));
+                gfx->drawRect(otEkranenXdoRealenX(posX - bgXofset), otEkranenYdoRealenY(posY - bgYofset), bgWH, bgWH, gfx->color565(bg_color));
             }
         }
     }

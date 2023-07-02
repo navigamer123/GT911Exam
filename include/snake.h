@@ -7,12 +7,13 @@
 class Snake
 {
 public:
-#define tail_count 15
+#define tail_count 10
 #define bgWH 50
 #define maxMove 1000
 #define foodGen 100
-#define foodSize 15
-
+#define foodSize 10
+#define bg_color  250,250,250
+#define move_delay 50
     int snakeFoodX[foodGen] = {0};
     int snakeFoodY[foodGen] = {0};
 
@@ -34,8 +35,8 @@ public:
     int bgYofset_total = 0;
     int game[25][15];
     int gameObjCords[25][15];
-    int tailX[tail_count] = {250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250};
-    int tailY[tail_count] = {150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150};
+    int tailX[tail_count];
+    int tailY[tail_count];
     int numTilesX = 500 / bgWH;
     int numTilesY = 300 / bgWH;
     
