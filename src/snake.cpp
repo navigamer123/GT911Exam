@@ -320,7 +320,7 @@ void Snake::drawBg(bool remove)
     }
 }
 
-void Snake::,(bool remove)
+void Snake::(bool remove)
 {
     gfx->setCursor(600, 100);
     gfx->setTextSize(1);
