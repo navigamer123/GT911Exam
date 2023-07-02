@@ -91,6 +91,8 @@ extern lv_obj_t * ui_snake_Arrow_Right_lable;
 extern lv_obj_t * ui_snake_box;
 extern lv_obj_t * ui_snake_jcon_out;
 extern lv_obj_t * ui_snake_jcon_in;
+extern lv_obj_t *scoreboard_text;
+extern lv_obj_t *scoreboard_panel;
 ///////////////////// SCREENS ////////////////////
 extern lv_obj_t * ui_Screen7;
 extern lv_obj_t * ui_Screen6;

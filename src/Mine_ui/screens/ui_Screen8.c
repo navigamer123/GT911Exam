@@ -7,6 +7,7 @@
 #define CANVAS_HEIGHT 150
 int jconMoveX;
 int jconMoveY;
+
 void drag_event_handler(lv_event_t *e)
 {
     lv_obj_t *obj = lv_event_get_target(e);
@@ -27,7 +28,6 @@ void drag_event_handler(lv_event_t *e)
     }
     lv_obj_set_pos(obj, x, y);
 }
-
 static void backto00(lv_event_t *e)
 {
     lv_obj_t *obj = lv_event_get_target(e);
@@ -65,6 +65,20 @@ void ui_Screen8_screen_init_mian(void)
     lv_label_set_text(ui_back_label, "back");
     lv_obj_add_event_cb(ui_back, app_select, LV_EVENT_ALL, NULL);
 
+    scoreboard_panel = lv_obj_create(ui_Screen_snake_game);
+    lv_obj_set_width(scoreboard_panel, 50);
+    lv_obj_set_height(scoreboard_panel, 100);
+    lv_obj_set_x(scoreboard_panel, -100);
+    lv_obj_set_y(scoreboard_panel, 50);
+    lv_obj_clear_flag(scoreboard_panel, LV_OBJ_FLAG_SCROLLABLE); /// Flags
+    
+    scoreboard_text = lv_label_create(scoreboard_panel);
+    lv_obj_set_width(scoreboard_text, LV_SIZE_CONTENT);
+    lv_obj_set_height(scoreboard_text, LV_SIZE_CONTENT);
+    lv_obj_set_x(scoreboard_text, 0);
+    lv_obj_set_y(scoreboard_text, 0);
+    lv_obj_set_align(ui_back_label, LV_ALIGN_CENTER);
+    lv_label_set_text(scoreboard_text, "score:0");
     /*ui_snake_Arrow_UP = lv_btn_create(ui_Screen_snake_game);
     lv_obj_set_width(ui_snake_Arrow_UP, 50);
     lv_obj_set_height(ui_snake_Arrow_UP, 50);

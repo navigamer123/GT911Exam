@@ -1,6 +1,6 @@
 #include "snake.h"
 #include "Mine_ui/screens/ui_screen8.h"
-
+#include "GamerFont.h"
 int otEkranenXdoRealenX(int x)
 {
     return x + 100;
@@ -20,7 +20,11 @@ void Snake::loop()
         drawfood(true);
         drawSnake(true);
         CameraMove();
-
+        fruitCheck();
+        if (prev_score != score)
+        {
+            drawScore(false);
+        }
         for (int i = 0; i < tail_count; i++)
         {
             if (i == 0)
@@ -39,7 +43,6 @@ void Snake::loop()
             snake_headX -= move_x;
         if (move_headY == true)
             snake_headY -= move_y;
-
         // lasttick = millis();
     }
     PosMove();
@@ -59,6 +62,7 @@ void Snake::loop()
         // glawa
         drawSnake(false);
         lasttick = millis();
+        prev_score = score;
     }
 }
 
@@ -209,9 +213,9 @@ void Snake::drawfood(bool remove)
 {
     for (int x = 0; x < foodGen; x++)
     {
-        if (bgXofset_total + foodSize + 1 + bgWH <= snakeFoodX[x] && snakeFoodX[x] <= bgXofset_total + 500 - (foodSize + 1 + bgWH))
+        if (bgXofset_total + foodSize + 1 <= snakeFoodX[x] && snakeFoodX[x] <= bgXofset_total + 500 - (foodSize + 1))
         {
-            if (bgYofset_total + foodSize + 1 + bgWH <= snakeFoodY[x] && snakeFoodY[x] <= bgYofset_total + 300 - (foodSize + 1 + bgWH))
+            if (bgYofset_total + foodSize + 1 <= snakeFoodY[x] && snakeFoodY[x] <= bgYofset_total + 300 - (foodSize + 1))
             {
                 if (!remove)
                 {
@@ -311,6 +315,40 @@ void Snake::drawBg(bool remove)
             {
 
                 gfx->drawRect(otEkranenXdoRealenX(posX - bgXofset), otEkranenYdoRealenY(posY - bgYofset), bgWH, bgWH, gfx->color565(bg_color));
+            }
+        }
+    }
+}
+
+void Snake::,(bool remove)
+{
+    gfx->setCursor(600, 100);
+    gfx->setTextSize(1);
+    gfx->setFont(&seguibl20pt7b);
+    gfx->print("Score:");
+    gfx->print(score);
+    if (remove)
+    {
+       gfx->fillRect(600, 100,100,50,gfx->color565(bg_color));
+    }
+    
+}
+
+void Snake::fruitCheck()
+{
+    for (int i = 0; i < foodGen; i++)
+    {
+        if (bgXofset_total + foodSize + 1 <= snakeFoodX[i] && snakeFoodX[i] <= bgXofset_total + 500 - (foodSize + 1))
+        {
+            if (bgYofset_total + foodSize + 1 <= snakeFoodY[i] && snakeFoodY[i] <= bgYofset_total + 300 - (foodSize + 1))
+            {
+                if (snakeFoodX[i] - bgXofset_total - 10 <= 250 - snakeSize && snakeFoodX[i] - bgXofset_total + 10 <= 250 + snakeSize)
+                {
+
+                    snakeFoodX[i] = random(maxMove * -1, maxMove);
+                    snakeFoodY[i] = random(maxMove * -1, maxMove);
+                    score++;
+                }
             }
         }
     }

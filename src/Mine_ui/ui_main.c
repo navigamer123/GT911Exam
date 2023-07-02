@@ -84,6 +84,8 @@ lv_obj_t *ui_snake_Arrow_Right_lable;
 lv_obj_t *ui_snake_box;
 lv_obj_t *ui_snake_jcon_out;
 lv_obj_t *ui_snake_jcon_in;
+lv_obj_t *scoreboard_text;
+lv_obj_t *scoreboard_panel;
 //////////////////////////////////////////////////
 void app_select(lv_event_t *e)
 {

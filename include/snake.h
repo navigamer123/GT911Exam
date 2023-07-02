@@ -12,11 +12,13 @@ public:
 #define maxMove 1000
 #define foodGen 100
 #define foodSize 10
+#define snakeSize 25
 #define bg_color  250,250,250
-#define move_delay 50
+#define move_delay 100
     int snakeFoodX[foodGen] = {0};
     int snakeFoodY[foodGen] = {0};
-
+    int score = 0;
+    int prev_score = 0;
     void setup();
     bool move_headX = false;
     bool move_headY = false;
@@ -47,6 +49,8 @@ public:
     void drawSnake(bool remove );
     void drawTail(bool remove);
     void drawBg(bool remove);
+    void drawScore(bool remove);
+    void fruitCheck();
 
 private:
 protected:
