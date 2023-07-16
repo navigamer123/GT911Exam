@@ -101,7 +101,7 @@ void ui_Screen6_screen_init_mian(void)
     FileMb = lv_btn_create(ui_Screen6);
     lv_obj_set_width(FileMb, 110);
     lv_obj_set_height(FileMb, 64);
-    lv_obj_set_x(FileMb, 40);
+    lv_obj_set_x(FileMb, 160);
     lv_obj_set_y(FileMb, -123);
     lv_obj_set_align(FileMb, LV_ALIGN_CENTER);
     lv_obj_add_flag(FileMb, LV_OBJ_FLAG_SCROLL_ON_FOCUS); /// Flags
@@ -114,8 +114,8 @@ void ui_Screen6_screen_init_mian(void)
     lv_obj_set_x(FileMb_label, -3);
     lv_obj_set_y(FileMb_label, 1);
     lv_obj_set_align(FileMb_label, LV_ALIGN_CENTER);
-    lv_label_set_text(FileMb_label, "Wi-Fi");
-    lv_obj_add_event_cb(FileMb, ui_event_WiFI, LV_EVENT_ALL, NULL);
+    lv_label_set_text(FileMb_label, "File Maneger");
+    lv_obj_add_event_cb(FileMb, FileLoad, LV_EVENT_ALL, NULL);
     
     
     
