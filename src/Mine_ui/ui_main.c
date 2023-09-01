@@ -95,7 +95,7 @@ void app_select(lv_event_t *e)
     lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_CLICKED)
     {
-        _ui_screen_change_main(ui_Screen6, LV_SCR_LOAD_ANIM_NONE, 500, 0);
+        _ui_screen_change_main(ui_Screen6, LV_SCR_LOAD_ANIM_NONE, 0, 0);
     }
 }
 void mainscreen(lv_event_t *e)
@@ -131,7 +131,7 @@ void snakemain(lv_event_t *e)
     lv_obj_t *target = lv_event_get_target(e);
     if (event_code == LV_EVENT_CLICKED)
     {
-        _ui_screen_change_main(ui_Screen_snake_game, LV_SCR_LOAD_ANIM_NONE, 500, 0);
+        _ui_screen_change_main(ui_Screen_snake_game, LV_SCR_LOAD_ANIM_NONE, 0, 0);
     }
 }
 void FileLoad(lv_event_t *e)

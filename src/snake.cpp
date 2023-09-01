@@ -347,10 +347,15 @@ void Snake::fruitCheck()
         {
             if (bgYofset_total + foodSize + 1 <= snakeFoodY[i] && snakeFoodY[i] <= bgYofset_total + 300 - (foodSize + 1))
             {
-
-                snakeFoodX[i] = random(maxMove * -1, maxMove);
-                snakeFoodY[i] = random(maxMove * -1, maxMove);
-                score++;
+                if (snake_headX - snakeSize <= snakeFoodX[i] && snakeFoodX[i] <= snake_headX + snakeSize)
+                {
+                    if (snake_headY - snakeSize <= snakeFoodY[i] && snakeFoodY[i] <= snake_headY + snakeSize)
+                    {
+                        snakeFoodX[i] = random(maxMove * -1, maxMove);
+                        snakeFoodY[i] = random(maxMove * -1, maxMove);
+                        score++;
+                    }
+                }
             }
         }
     }

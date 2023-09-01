@@ -4,7 +4,8 @@
 #include "string.h"
 #include "GifClass.h"
 #include "SD.h"
-
+#include "FS.h"
+#include "myDrawingLibraly/N_draw.h"
 #ifndef main_h
 #define main_h
 #define backround_collor WHITE

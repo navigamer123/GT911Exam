@@ -106,6 +106,7 @@ Arduino_RGB_Display *gfx = new Arduino_RGB_Display(
 #include "WiFi.h"
 #include "main.h"
 #include "snake.h"
+
 #define Speker_DOUT 17
 #define Speker_BCLK 0
 #define Speker_LRC 18
@@ -127,7 +128,7 @@ int mode;
 #define GIF_FILENAME1 "/stratup.gif"
 
 static GifClass gifClass1;
-
+n_draw test(0, 0, 800, 480, test.color565(255, 255, 255));
 /* Display flushing */
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p)
 {
@@ -166,6 +167,7 @@ void my_touchpad_read(lv_indev_drv_t *indev_driver, lv_indev_data_t *data)
 }
 File myFile;
 Snake snake;
+
 void initDSP()
 {
   gfx->begin();
@@ -255,6 +257,7 @@ void loadGIFT()
         network_Nubers = WiFi.scanComplete();
         Serial.println(WiFi.SSID(0).c_str());
         break;
+        free(buf1);
       }
     }
     else
@@ -287,7 +290,7 @@ void setup()
     Serial.println("No SD card attached");
   }
   network_Nubers = WiFi.scanNetworks(true);
-
+  Serial.println("now");
   loadGIFT();
   myFile = SD.open("/test.txt", "r");
   Serial.println(" ");
@@ -297,13 +300,14 @@ void setup()
 
 void loop()
 {
-  if (lv_scr_act() == ui_Screen_snake_game)
-  {
-    snake.loop();
-    lv_timer_handler_run_in_period(0);
-  }
-  else
-  {
-    lv_timer_handler_run_in_period(100); /* let the GUI do its work */
-  }
+
+ if (lv_scr_act() == ui_Screen_snake_game)
+ {
+  snake.loop();
+  lv_timer_handler_run_in_period(0);
+ }
+ else
+ {
+   lv_timer_handler_run_in_period(100); /* let the GUI do its work */
+ }
 }
